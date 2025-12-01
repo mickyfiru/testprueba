@@ -1,8 +1,8 @@
-package cl.profemariostomas.classicmodels.views.departamentos;
+package cl.profemariostomas.classicmodels.views.especialidades;
 
 import cl.profemariostomas.classicmodels.ControllerResponse;
-import cl.profemariostomas.classicmodels.controllers.DepartamentosController;
-import cl.profemariostomas.classicmodels.models.DepartamentoModel;
+import cl.profemariostomas.classicmodels.controllers.EspecialidadesController;
+import cl.profemariostomas.classicmodels.models.EspecialidadModel;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,14 +11,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class DepartamentoAddView extends JFrame {
+public class EspecialidadAddView extends JFrame {
 
     private final JTextField txtId = new JTextField();
     private final JTextField txtNombre = new JTextField();
-    private final JTextField txtCentroCosto = new JTextField();
+    private final JTextField txtCodigo = new JTextField();
 
-    public DepartamentoAddView() {
-        super("Agregar departamento");
+    public EspecialidadAddView() {
+        super("Agregar especialidad");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         buildLayout();
         pack();
@@ -26,12 +26,12 @@ public class DepartamentoAddView extends JFrame {
 
     private void buildLayout() {
         JPanel panel = new JPanel(new GridLayout(4, 2, 8, 8));
-        panel.add(new JLabel("ID Departamento"));
+        panel.add(new JLabel("ID Especialidad"));
         panel.add(txtId);
         panel.add(new JLabel("Nombre"));
         panel.add(txtNombre);
-        panel.add(new JLabel("Centro de costo"));
-        panel.add(txtCentroCosto);
+        panel.add(new JLabel("Código"));
+        panel.add(txtCodigo);
 
         JButton btnGuardar = new JButton("Insertar");
         btnGuardar.addActionListener(e -> save());
@@ -42,15 +42,15 @@ public class DepartamentoAddView extends JFrame {
     }
 
     private void save() {
-        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtCentroCosto.getText().isBlank()) {
+        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtCodigo.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             int id = Integer.parseInt(txtId.getText());
-            ControllerResponse response = DepartamentosController.insert(
-                new DepartamentoModel(id, txtNombre.getText(), txtCentroCosto.getText())
+            ControllerResponse response = EspecialidadesController.insert(
+                new EspecialidadModel(id, txtNombre.getText(), txtCodigo.getText())
             );
 
             if (response.getStatus()) {
@@ -59,7 +59,7 @@ public class DepartamentoAddView extends JFrame {
                 JOptionPane.showMessageDialog(this, response.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID del departamento debe ser numérico", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El ID de la especialidad debe ser numérico", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
