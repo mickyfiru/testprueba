@@ -12,14 +12,13 @@ import java.util.ArrayList;
 public class EspecialidadesController {
 
     public static ControllerResponse insert(EspecialidadModel especialidad) {
-        String SQL_INSERT = "INSERT INTO Especialidades (id_especialidad, nombre_especialidad, codigo) VALUES (?, ?, ?);";
+        String SQL_INSERT = "INSERT INTO Especialidades (nombre_especialidad, codigo) VALUES (?, ?);";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
 
-            pstmt.setInt(1, especialidad.getIdEspecialidad());
-            pstmt.setString(2, especialidad.getNombreEspecialidad());
-            pstmt.setString(3, especialidad.getCodigo());
+            pstmt.setString(1, especialidad.getNombreEspecialidad());
+            pstmt.setString(2, especialidad.getCodigo());
 
             int rowCount = pstmt.executeUpdate();
 

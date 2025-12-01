@@ -20,6 +20,14 @@ public class CitaModel {
         this.motivo = motivo;
     }
 
+    public CitaModel(int idMedico, int idPaciente, Timestamp fechaCita, String estado, String motivo) {
+        this.idMedico = idMedico;
+        this.idPaciente = idPaciente;
+        this.fechaCita = fechaCita;
+        this.estado = estado;
+        this.motivo = motivo;
+    }
+
     public int getIdCita() {
         return idCita;
     }

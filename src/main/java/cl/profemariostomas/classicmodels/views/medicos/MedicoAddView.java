@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 public class MedicoAddView extends JFrame {
 
-    private final JTextField txtId = new JTextField();
     private final JTextField txtNombre = new JTextField();
     private final JTextField txtApellido = new JTextField();
     private final JTextField txtLicencia = new JTextField();
@@ -27,9 +26,7 @@ public class MedicoAddView extends JFrame {
     }
 
     private void buildLayout() {
-        JPanel panel = new JPanel(new GridLayout(6, 2, 8, 8));
-        panel.add(new JLabel("ID Médico"));
-        panel.add(txtId);
+        JPanel panel = new JPanel(new GridLayout(5, 2, 8, 8));
         panel.add(new JLabel("Nombre"));
         panel.add(txtNombre);
         panel.add(new JLabel("Apellido"));
@@ -48,17 +45,16 @@ public class MedicoAddView extends JFrame {
     }
 
     private void save() {
-        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtApellido.getText().isBlank()
+        if (txtNombre.getText().isBlank() || txtApellido.getText().isBlank()
             || txtLicencia.getText().isBlank() || txtIdEspecialidad.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            int id = Integer.parseInt(txtId.getText());
             int idEspecialidad = Integer.parseInt(txtIdEspecialidad.getText());
             ControllerResponse response = MedicosController.insert(
-                new MedicoModel(id, txtNombre.getText(), txtApellido.getText(), txtLicencia.getText(), idEspecialidad)
+                new MedicoModel(txtNombre.getText(), txtApellido.getText(), txtLicencia.getText(), idEspecialidad)
             );
 
             if (response.getStatus()) {

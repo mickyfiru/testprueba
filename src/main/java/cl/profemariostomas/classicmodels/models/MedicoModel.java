@@ -16,6 +16,13 @@ public class MedicoModel {
         this.idEspecialidad = idEspecialidad;
     }
 
+    public MedicoModel(String nombre, String apellido, String numeroLicencia, int idEspecialidad) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.numeroLicencia = numeroLicencia;
+        this.idEspecialidad = idEspecialidad;
+    }
+
     public int getIdMedico() {
         return idMedico;
     }

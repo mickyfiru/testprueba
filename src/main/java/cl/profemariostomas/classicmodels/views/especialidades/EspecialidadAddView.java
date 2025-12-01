@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 public class EspecialidadAddView extends JFrame {
 
-    private final JTextField txtId = new JTextField();
     private final JTextField txtNombre = new JTextField();
     private final JTextField txtCodigo = new JTextField();
 
@@ -25,9 +24,7 @@ public class EspecialidadAddView extends JFrame {
     }
 
     private void buildLayout() {
-        JPanel panel = new JPanel(new GridLayout(4, 2, 8, 8));
-        panel.add(new JLabel("ID Especialidad"));
-        panel.add(txtId);
+        JPanel panel = new JPanel(new GridLayout(3, 2, 8, 8));
         panel.add(new JLabel("Nombre"));
         panel.add(txtNombre);
         panel.add(new JLabel("Código"));
@@ -42,24 +39,19 @@ public class EspecialidadAddView extends JFrame {
     }
 
     private void save() {
-        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtCodigo.getText().isBlank()) {
+        if (txtNombre.getText().isBlank() || txtCodigo.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        try {
-            int id = Integer.parseInt(txtId.getText());
-            ControllerResponse response = EspecialidadesController.insert(
-                new EspecialidadModel(id, txtNombre.getText(), txtCodigo.getText())
-            );
+        ControllerResponse response = EspecialidadesController.insert(
+            new EspecialidadModel(txtNombre.getText(), txtCodigo.getText())
+        );
 
-            if (response.getStatus()) {
-                JOptionPane.showMessageDialog(this, response.getMessage());
-            } else {
-                JOptionPane.showMessageDialog(this, response.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID de la especialidad debe ser numérico", "Error", JOptionPane.ERROR_MESSAGE);
+        if (response.getStatus()) {
+            JOptionPane.showMessageDialog(this, response.getMessage());
+        } else {
+            JOptionPane.showMessageDialog(this, response.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

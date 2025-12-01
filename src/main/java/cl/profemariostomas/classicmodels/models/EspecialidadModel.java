@@ -12,6 +12,11 @@ public class EspecialidadModel {
         this.codigo = codigo;
     }
 
+    public EspecialidadModel(String nombreEspecialidad, String codigo) {
+        this.nombreEspecialidad = nombreEspecialidad;
+        this.codigo = codigo;
+    }
+
     public int getIdEspecialidad() {
         return idEspecialidad;
     }

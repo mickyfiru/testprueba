@@ -18,6 +18,13 @@ public class PacienteModel {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public PacienteModel(String nombre, String apellido, String rut, Date fechaNacimiento) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.rut = rut;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     public int getIdPaciente() {
         return idPaciente;
     }

@@ -13,17 +13,16 @@ import java.util.ArrayList;
 public class CitasController {
 
     public static ControllerResponse insert(CitaModel cita) {
-        String SQL_INSERT = "INSERT INTO Citas (id_cita, id_medico, id_paciente, fecha_cita, estado, motivo) VALUES (?, ?, ?, ?, ?, ?);";
+        String SQL_INSERT = "INSERT INTO Citas (id_medico, id_paciente, fecha_cita, estado, motivo) VALUES (?, ?, ?, ?, ?);";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
 
-            pstmt.setInt(1, cita.getIdCita());
-            pstmt.setInt(2, cita.getIdMedico());
-            pstmt.setInt(3, cita.getIdPaciente());
-            pstmt.setTimestamp(4, cita.getFechaCita());
-            pstmt.setString(5, cita.getEstado());
-            pstmt.setString(6, cita.getMotivo());
+            pstmt.setInt(1, cita.getIdMedico());
+            pstmt.setInt(2, cita.getIdPaciente());
+            pstmt.setTimestamp(3, cita.getFechaCita());
+            pstmt.setString(4, cita.getEstado());
+            pstmt.setString(5, cita.getMotivo());
 
             int rowCount = pstmt.executeUpdate();
 

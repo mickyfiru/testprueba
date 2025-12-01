@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 
 public class PacienteAddView extends JFrame {
 
-    private final JTextField txtId = new JTextField();
     private final JTextField txtNombre = new JTextField();
     private final JTextField txtApellido = new JTextField();
     private final JTextField txtRut = new JTextField();
@@ -28,9 +27,7 @@ public class PacienteAddView extends JFrame {
     }
 
     private void buildLayout() {
-        JPanel panel = new JPanel(new GridLayout(6, 2, 8, 8));
-        panel.add(new JLabel("ID Paciente"));
-        panel.add(txtId);
+        JPanel panel = new JPanel(new GridLayout(5, 2, 8, 8));
         panel.add(new JLabel("Nombre"));
         panel.add(txtNombre);
         panel.add(new JLabel("Apellido"));
@@ -49,17 +46,16 @@ public class PacienteAddView extends JFrame {
     }
 
     private void save() {
-        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtApellido.getText().isBlank()
+        if (txtNombre.getText().isBlank() || txtApellido.getText().isBlank()
             || txtRut.getText().isBlank() || txtFechaNacimiento.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            int id = Integer.parseInt(txtId.getText());
             Date fechaNacimiento = Date.valueOf(txtFechaNacimiento.getText());
             ControllerResponse response = PacientesController.insert(
-                new PacienteModel(id, txtNombre.getText(), txtApellido.getText(), txtRut.getText(), fechaNacimiento)
+                new PacienteModel(txtNombre.getText(), txtApellido.getText(), txtRut.getText(), fechaNacimiento)
             );
 
             if (response.getStatus()) {
@@ -69,8 +65,6 @@ public class PacienteAddView extends JFrame {
             }
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, "La fecha debe tener el formato YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser numérico", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

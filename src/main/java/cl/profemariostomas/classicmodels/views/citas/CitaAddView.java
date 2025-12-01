@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 
 public class CitaAddView extends JFrame {
 
-    private final JTextField txtId = new JTextField();
     private final JTextField txtMedico = new JTextField();
     private final JTextField txtPaciente = new JTextField();
     private final JTextField txtFecha = new JTextField("2025-01-10 09:30:00");
@@ -29,9 +28,7 @@ public class CitaAddView extends JFrame {
     }
 
     private void buildLayout() {
-        JPanel panel = new JPanel(new GridLayout(7, 2, 8, 8));
-        panel.add(new JLabel("ID Cita"));
-        panel.add(txtId);
+        JPanel panel = new JPanel(new GridLayout(6, 2, 8, 8));
         panel.add(new JLabel("ID Médico"));
         panel.add(txtMedico);
         panel.add(new JLabel("ID Paciente"));
@@ -52,19 +49,18 @@ public class CitaAddView extends JFrame {
     }
 
     private void save() {
-        if (txtId.getText().isBlank() || txtMedico.getText().isBlank() || txtPaciente.getText().isBlank()
+        if (txtMedico.getText().isBlank() || txtPaciente.getText().isBlank()
             || txtFecha.getText().isBlank() || txtEstado.getText().isBlank() || txtMotivo.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            int id = Integer.parseInt(txtId.getText());
             int idMedico = Integer.parseInt(txtMedico.getText());
             int idPaciente = Integer.parseInt(txtPaciente.getText());
             Timestamp fechaCita = Timestamp.valueOf(txtFecha.getText());
             ControllerResponse response = CitasController.insert(
-                new CitaModel(id, idMedico, idPaciente, fechaCita, txtEstado.getText(), txtMotivo.getText())
+                new CitaModel(idMedico, idPaciente, fechaCita, txtEstado.getText(), txtMotivo.getText())
             );
 
             if (response.getStatus()) {

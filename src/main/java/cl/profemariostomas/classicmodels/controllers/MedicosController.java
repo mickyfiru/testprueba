@@ -12,16 +12,15 @@ import java.util.ArrayList;
 public class MedicosController {
 
     public static ControllerResponse insert(MedicoModel medico) {
-        String SQL_INSERT = "INSERT INTO Medicos (id_medico, nombre, apellido, numero_licencia, id_especialidad) VALUES (?, ?, ?, ?, ?);";
+        String SQL_INSERT = "INSERT INTO Medicos (nombre, apellido, numero_licencia, id_especialidad) VALUES (?, ?, ?, ?);";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
 
-            pstmt.setInt(1, medico.getIdMedico());
-            pstmt.setString(2, medico.getNombre());
-            pstmt.setString(3, medico.getApellido());
-            pstmt.setString(4, medico.getNumeroLicencia());
-            pstmt.setInt(5, medico.getIdEspecialidad());
+            pstmt.setString(1, medico.getNombre());
+            pstmt.setString(2, medico.getApellido());
+            pstmt.setString(3, medico.getNumeroLicencia());
+            pstmt.setInt(4, medico.getIdEspecialidad());
 
             int rowCount = pstmt.executeUpdate();
 
