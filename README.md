@@ -1,3 +1,3 @@
 # Instrucciones
 
-En la carpeta src/main/resources está el archivo classicmodels.sql para crear e importar datos iniciales.
+En la carpeta src/main/resources está el archivo Universidad.sql para crear e importar datos iniciales de la base de datos requerida.

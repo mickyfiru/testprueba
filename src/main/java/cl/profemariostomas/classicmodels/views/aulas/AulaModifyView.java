@@ -1,8 +1,8 @@
-package cl.profemariostomas.classicmodels.views.departamentos;
+package cl.profemariostomas.classicmodels.views.aulas;
 
 import cl.profemariostomas.classicmodels.ControllerResponse;
-import cl.profemariostomas.classicmodels.controllers.DepartamentosController;
-import cl.profemariostomas.classicmodels.models.DepartamentoModel;
+import cl.profemariostomas.classicmodels.controllers.AulasController;
+import cl.profemariostomas.classicmodels.models.AulaModel;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,14 +11,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class DepartamentoModifyView extends JFrame {
+public class AulaModifyView extends JFrame {
 
     private final JTextField txtId = new JTextField();
     private final JTextField txtNombre = new JTextField();
-    private final JTextField txtCentroCosto = new JTextField();
+    private final JTextField txtCapacidad = new JTextField();
 
-    public DepartamentoModifyView() {
-        super("Modificar departamento");
+    public AulaModifyView() {
+        super("Modificar aula");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         buildLayout();
         pack();
@@ -26,31 +26,32 @@ public class DepartamentoModifyView extends JFrame {
 
     private void buildLayout() {
         JPanel panel = new JPanel(new GridLayout(4, 2, 8, 8));
-        panel.add(new JLabel("ID Departamento"));
+        panel.add(new JLabel("ID Aula"));
         panel.add(txtId);
-        panel.add(new JLabel("Nombre"));
+        panel.add(new JLabel("Nuevo nombre"));
         panel.add(txtNombre);
-        panel.add(new JLabel("Centro de costo"));
-        panel.add(txtCentroCosto);
+        panel.add(new JLabel("Nueva capacidad"));
+        panel.add(txtCapacidad);
 
-        JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.addActionListener(e -> update());
+        JButton btnGuardar = new JButton("Actualizar");
+        btnGuardar.addActionListener(e -> save());
         panel.add(new JLabel());
-        panel.add(btnActualizar);
+        panel.add(btnGuardar);
 
         add(panel);
     }
 
-    private void update() {
-        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtCentroCosto.getText().isBlank()) {
+    private void save() {
+        if (txtId.getText().isBlank() || txtNombre.getText().isBlank() || txtCapacidad.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             int id = Integer.parseInt(txtId.getText());
-            ControllerResponse response = DepartamentosController.update(
-                new DepartamentoModel(id, txtNombre.getText(), txtCentroCosto.getText())
+            int capacidad = Integer.parseInt(txtCapacidad.getText());
+            ControllerResponse response = AulasController.update(
+                new AulaModel(id, txtNombre.getText(), capacidad)
             );
 
             if (response.getStatus()) {
@@ -59,7 +60,7 @@ public class DepartamentoModifyView extends JFrame {
                 JOptionPane.showMessageDialog(this, response.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID del departamento debe ser numérico", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El ID y la capacidad deben ser numéricos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

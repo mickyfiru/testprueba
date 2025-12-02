@@ -2,30 +2,28 @@ package cl.profemariostomas.classicmodels.controllers;
 
 import cl.profemariostomas.classicmodels.ControllerResponse;
 import cl.profemariostomas.classicmodels.MySQLConnection;
-import cl.profemariostomas.classicmodels.models.TareaModel;
+import cl.profemariostomas.classicmodels.models.EspecialidadModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TareasController {
+public class EspecialidadesController {
 
-    public static ControllerResponse insert(TareaModel tarea) {
-        String SQL_INSERT = "INSERT INTO tareas (id_tarea, id_empleado_asignado, estado, horas_estimadas) VALUES (?, ?, ?, ?);";
+    public static ControllerResponse insert(EspecialidadModel especialidad) {
+        String SQL_INSERT = "INSERT INTO Especialidades (nombre_especialidad, codigo) VALUES (?, ?);";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
 
-            pstmt.setInt(1, tarea.getIdTarea());
-            pstmt.setInt(2, tarea.getIdEmpleadoAsignado());
-            pstmt.setString(3, tarea.getEstado());
-            pstmt.setInt(4, tarea.getHorasEstimadas());
+            pstmt.setString(1, especialidad.getNombreEspecialidad());
+            pstmt.setString(2, especialidad.getCodigo());
 
             int rowCount = pstmt.executeUpdate();
 
             if (rowCount > 0) {
-                return new ControllerResponse(true, "Tarea " + tarea.getIdTarea() + " guardada!");
+                return new ControllerResponse(true, "Especialidad " + especialidad.getNombreEspecialidad() + " guardada!");
             }
             return new ControllerResponse(false, "No se insertó el registro");
         } catch (SQLException e) {
@@ -33,21 +31,20 @@ public class TareasController {
         }
     }
 
-    public static ControllerResponse update(TareaModel tarea) {
-        String SQL_UPDATE = "UPDATE tareas SET id_empleado_asignado = ?, estado = ?, horas_estimadas = ? WHERE id_tarea = ?;";
+    public static ControllerResponse update(EspecialidadModel especialidad) {
+        String SQL_UPDATE = "UPDATE Especialidades SET nombre_especialidad = ?, codigo = ? WHERE id_especialidad = ?;";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL_UPDATE)) {
 
-            pstmt.setInt(1, tarea.getIdEmpleadoAsignado());
-            pstmt.setString(2, tarea.getEstado());
-            pstmt.setInt(3, tarea.getHorasEstimadas());
-            pstmt.setInt(4, tarea.getIdTarea());
+            pstmt.setString(1, especialidad.getNombreEspecialidad());
+            pstmt.setString(2, especialidad.getCodigo());
+            pstmt.setInt(3, especialidad.getIdEspecialidad());
 
             int rowCount = pstmt.executeUpdate();
 
             if (rowCount > 0) {
-                return new ControllerResponse(true, "Tarea " + tarea.getIdTarea() + " actualizada!");
+                return new ControllerResponse(true, "Especialidad " + especialidad.getIdEspecialidad() + " actualizada!");
             }
             return new ControllerResponse(false, "No se encontró el registro");
         } catch (SQLException e) {
@@ -55,9 +52,9 @@ public class TareasController {
         }
     }
 
-    public static ArrayList<TareaModel> select() {
-        String SQL_SELECT = "SELECT * FROM tareas;";
-        ArrayList<TareaModel> tareas = new ArrayList<>();
+    public static ArrayList<EspecialidadModel> select() {
+        String SQL_SELECT = "SELECT * FROM Especialidades;";
+        ArrayList<EspecialidadModel> especialidades = new ArrayList<>();
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT)) {
@@ -65,17 +62,16 @@ public class TareasController {
             ResultSet records = pstmt.executeQuery();
 
             while (records.next()) {
-                tareas.add(
-                    new TareaModel(
-                        records.getInt("id_tarea"),
-                        records.getInt("id_empleado_asignado"),
-                        records.getString("estado"),
-                        records.getInt("horas_estimadas")
+                especialidades.add(
+                    new EspecialidadModel(
+                        records.getInt("id_especialidad"),
+                        records.getString("nombre_especialidad"),
+                        records.getString("codigo")
                     )
                 );
             }
 
-            return tareas;
+            return especialidades;
         } catch (SQLException e) {
             System.out.println("Cant get data: " + e.getMessage());
             return null;
